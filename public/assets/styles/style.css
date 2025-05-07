@@ -1,0 +1,157 @@
+/* ADMIN */
+
+
+/*** Login  ***/
+
+.r-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-wrapper {
+    display: flex;
+    /* margin-top: 10px; */
+    width: 900px; /* Lebarkan container */
+    height: 490px; /* Tinggikan container */
+    background: rgba(156, 59, 59, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.left-section {
+    width: 50%;
+    background: linear-gradient(to right, #3e2723, #795548);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(to bottom, #a7a2a2, #D6D6D6);
+}
+
+.login-container {
+    /* background: linear-gradient(to right, #1a1a2e, #3a1c71); */
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+.login-container h1{
+    text-align: center;
+    color: #fff;
+    justify-content: center;
+}
+
+.form-floating input {
+    border: none;
+    border-radius: 20px;
+    padding: 12px;
+    background: #bebebe;
+    border: 1px solid #000000;
+    color: #3e2723;
+}
+
+input::placeholder {
+    padding-left: 10px;
+}
+
+/* Login Button */
+.btn-custom {
+    height: 50px;
+    width: 350px;
+    border-radius: 50px;
+}
+
+.btn-custom {
+    border-radius: 50px !important;
+}
+
+
+/* SideBar */
+.sidebar {
+
+    background: linear-gradient(to right, #533530, #5d4037);
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: #fff;
+    width: 250px;
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.main-content {
+    margin-left: 250px;
+    margin-right: 0;
+    padding: 20px;
+}
+
+.navbar-nav {
+    gap: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.nav-item {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.nav-link {
+    padding: 5px 15px !important; /* Sesuaikan jika perlu */
+}
+
+
+/*** Title of every page ***/
+.pagename{
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 30px;
+    left: 265px;
+    margin: 40;
+    color: #000000;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+/*** table ***/
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+}
+
+.table thead th {
+    text-align: center;
+    vertical-align: middle;
+    color: whitesmoke;
+    background-color: #533530;
+}
+
+.table td {
+    color: #000000;
+    text-align: center;
+}
+
+.table tbody tr:nth-of-type(odd) td {
+    background-color: #b5b9bd;
+}
+
+.table tbody tr:nth-of-type(even) td {
+    background-color: #d3d6db;
+}
