@@ -4,7 +4,7 @@
 
  <!-- Menu -->
  <div class="sidebar p-3" style="width: 250px;">
-    <h6 class="text-white fs-1 mb-5">Admin Control</h6>
+    <h6 class="text-white fs-1 mb-5" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Admin Control</h6>
     <ul class="navbar-nav w-100  p-0 m-0" style="gap: 0; padding: 0;">
     @auth('admin')
         <li class="mb-4"><a href= "{{ route('admins.dashboard') }}" class="nav-item nav-link"><i class="fa fa-home me-3"></i>Dashboard</a></li>
@@ -25,8 +25,6 @@
                 @csrf
             </form>
             </div>
-
-
         </li>
         @endauth
     </ul>
@@ -36,41 +34,5 @@
 
 <div class="main-content">
     @yield('main-content')
-{{--
-    <div class="pagename">
-        <p>Dashboard<p>
-    </div>
-
-    <div class="row">
-        <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">Admin</h5>
-            <p class="card-text">number of admin: {{$adminCount}}</p>
-
-            </div>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">Resident</h5>
-
-            <p class="card-text">number of resident: {{$residentCount}}</p>
-
-            </div>
-        </div>
-        </div>
-        <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">Security Guard</h5>
-
-            <p class="card-text">number of security guard: {{$guardCount}}</p>
-
-            </div>
-        </div>
-        </div>
-    </div> --}}
 </div>
 @endsection

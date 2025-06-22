@@ -10,7 +10,7 @@ class VehicleLogController extends Controller
 {
     public function index()
     {
-        $logs = VehicleLog::latest()->get();
+        $logs = VehicleLog::with('resident')->latest()->paginate(7);
         return view('vehicle_log', compact('logs'));
     }
 
@@ -18,10 +18,10 @@ class VehicleLogController extends Controller
         $name = $request->input('name');
         $date = $request->input('date');
 
-        $query = VehicleLog::query();
+        $query = VehicleLog::with('resident');
 
         if ($name) {
-        $query->where(function ($q) use ($name) {
+        $query->whereHas('resident',function ($q) use ($name) {
             $q->where('Name', 'like', "%$name%")
               ->orWhere('PlateNo', 'like', "%$name%");
         });
@@ -30,8 +30,19 @@ class VehicleLogController extends Controller
         $query->whereDate('created_at', $date);
     }
 
-    $logs = $query->get();
+    $logs = $query->latest()->paginate(7);
 
+    /** @var \Illuminate\Pagination\LengthAwarePaginator $logs */
+    $logs->getCollection()->transform(function ($log){
+          return [
+            'id' => $log->id,
+            'Name' => $log->resident->Name ?? 'UNKNOWN',
+            'PlateNo' => $log->resident->PlateNo ?? '-',
+            'created_at' => $log->created_at,
+            'status' => $log->status,
+        ];
+        });
     return response()->json($logs);
     }
+
 }

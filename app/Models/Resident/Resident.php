@@ -20,4 +20,8 @@ class Resident extends Model
     ];
 
     public $timestamps = true;
+
+    public function logs(){
+        return $this->hasMany(VehicleLog::class, 'ResidentID');
+    }
 }

@@ -34,7 +34,7 @@
                     <tbody>
                         @foreach($residents as $index => $resident)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
+                                <td>{{ ($residents->currentPage() -1)* $residents->perPage() + $index + 1 }}</td>
                                 <td>{{ $resident->Name }}</td>
                                 <td>{{ $resident->PlateNo }}</td>
                                 <td>{{ $resident->Phone }}</td>
@@ -45,6 +45,15 @@
                 </table>
             </div>
 
+        <div class="d-flex justify-content-center mt-3">
+            <ul class="pagination justify-content-center">
+                @for($page =1 ; $page <= $residents -> lastpage(); $page++)
+                    <li class="page-item {{ $page ==$residents->currentPage()? 'active' : ''}}">
+                        <a class="page-link" href="{{$residents->url($page)}}{{request('search')? '&search=' .request('search') : ''}}">{{$page}}</a>
+                    </li>
+                @endfor
+            </ul>
+        </div>
     </div>
 </body>
 

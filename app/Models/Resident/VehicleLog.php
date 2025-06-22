@@ -12,9 +12,11 @@ class VehicleLog extends Model
     protected $table = 'vehicle_log';
 
     protected $fillable = [
-        'Name',
-        'TagID',
-        'PlateNo',
+        'ResidentID',
         'status'
     ];
+
+    public function resident(){
+        return $this->belongsTo(\App\Models\Resident\Resident::class, 'ResidentID', 'id');
+    }
 }

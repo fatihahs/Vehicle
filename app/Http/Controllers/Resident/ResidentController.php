@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Resident;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Resident\Resident;
+
 class ResidentController extends Controller
 {
     public function index(){
         // display registered resident
-        $residents = Resident::all();
+        $residents = Resident::paginate(7);
         return view('residentlist', compact('residents'));
     }
 
@@ -29,7 +30,7 @@ class ResidentController extends Controller
     }
 
     // Get the filtered residents
-    $residents = $query->get();
+    $residents = $query->paginate(7)->appends($request->query());
 
     return view('residentlist', compact('residents'));
     }

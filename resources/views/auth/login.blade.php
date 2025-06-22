@@ -5,6 +5,7 @@
 <style>
     body {
     background: linear-gradient(to right, #3e2723, #5d4037);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>
     <div class="r-container">
@@ -14,11 +15,11 @@
             <div class="left-section">
                 <div class="container-xxl py-5 header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-family:sans-serif">Vehicle Monitoring</h1>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Vehicle Monitoring</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center text-uppercase">
-                                <li class="breadcrumb-item"><a href="http://192.168.203.77:8000/login">Login</a></li>
-                                <li class="breadcrumb-item"><a href="http://192.168.203.77:8000/register">Register</a></li>
+                                <li class="breadcrumb-item"><a href="http://127.0.0.1:8000/login">Login</a></li>
+                                <li class="breadcrumb-item"><a href="http://127.0.0.1:8000/register">Register</a></li>
                             </ol>
                         </nav>
                     </div>

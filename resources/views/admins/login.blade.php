@@ -19,7 +19,7 @@
         <div class="left-section">
             <div class="container-xxl py-5 header mb-5">
                 <div class="container text-center my-5 pt-5 pb-4">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-family:sans-serif">Vehicle Monitoring</h1>
+                    <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Vehicle Monitoring</h1>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="right-section">
         <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="register-container text-center" style="width: 400px">
-            <h1 class="text-dark mb-4" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; "> Admin Login</h1>
+            <h1 class="text-dark mb-4" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif" "> Admin Login</h1>
             <form method="POST" action="{{ route('check.login') }}">
                 @csrf
 

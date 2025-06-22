@@ -4,10 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Resident\Resident;
 use App\Models\Resident\VehicleLog;
 use App\Http\Controllers\Resident\VehicleLogController;
+use App\Http\Controllers\Resident\Dashboardcontroller;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,28 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//******** VEHICLE LOG  *********/
-//receive from arduino
-// Route::post('/rfid', function (Request $request){
-//     $tag = strtoupper($request->tag_id); // Ensure uppercase for matching
-//     Log::info('RFID Tag Received: ' . $tag);
-
-//     $resident = Resident::where('TagID', $tag)->first();
-
-//     if ($resident) {
-//         // Save log if match
-//         VehicleLog::create([
-//             'Name' => $resident->Name,
-//             'TagID' => $resident->TagID,
-//             'PlateNo' => $resident->PlateNo
-//         ]);
-
-//         return response()->json(['status' => 'success', 'message' => 'Tag matched and logged.']);
-//     } else {
-//         return response()->json(['status' => 'fail', 'message' => 'Tag not found.']);
-//     }
-// });
-
+//RFID
 Route::post('/rfid', function (Request $request){
 
     $validated = $request->validate([
@@ -58,6 +39,15 @@ Route::post('/rfid', function (Request $request){
 
     if (!$resident){
         Log::warning('Unauthorized Vehicle');
+
+        Cache::put('latest_rfid_result',[
+            'authorized' => false,
+            'Name' => 'UNKNOWN',
+            'PlateNo' => '-',
+            'Address' => '-',
+            'status' => '-'
+        ], now()->addSeconds(30));
+
         return response()->json([
             'status' => 'fail',
             'message' => 'Unauthorized Vehicle'
@@ -67,7 +57,7 @@ Route::post('/rfid', function (Request $request){
     DB::beginTransaction();
     try{
 
-        $prestatus = VehicleLog::where('TagID', $tag)->latest('created_at')->first(); //check log last status
+        $prestatus = VehicleLog::where('ResidentID', $resident->id)->latest('created_at')->first(); //check log last status
 
         //condition status
         if(!$prestatus || $prestatus->status === 'OUT'){
@@ -79,19 +69,24 @@ Route::post('/rfid', function (Request $request){
 
         //create vehicle log
         VehicleLog::create([
-            'Name' => $resident->Name,
-            'TagID' => $resident->TagID,
-            'PlateNo' => $resident->PlateNo,
+            'ResidentID' => $resident->id,
             'status' => $status
         ]);
 
         DB::commit();
 
+        Cache::put('latest_rfid_result', [
+            'authorized' => true,
+            'Name' => $resident->Name,
+            'PlateNo' => $resident->PlateNo,
+            'Address' => $resident->Address,
+            'status' => $status
+        ], now()->addSeconds(30));
+
         return response()->json([
             'status' => 'success',
             'message' => 'Tag matched.',
-            'resident' => $resident->Name,
-            'status_logged' => $status
+            'resident' => $resident->Name
         ]);
 
     }catch (\Exception $e){
@@ -104,6 +99,37 @@ Route::post('/rfid', function (Request $request){
         ],500);
     }
 });
+
+
+Route::get('/rfid/latest', function (){
+    $data = Cache::get('latest_rfid_result');
+    return response()->json($data);
+});
+
+//MOTION
+Route::post('/motion', function (Request $request){
+    $motion = $request->input('motion');
+
+    if($motion == '1'){
+        Log::info('Motion Detected');
+
+        Cache::put('motion_status', true,30); //store for15s
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Motion Detected',
+            'motion' => true
+        ]);
+    }
+
+});
+
+Route::get('/motion-status',function(){
+    $motion = Cache::get('motion_status', false);
+    return response()->json(['motion' => $motion]);
+});
+
+Route::get('/vehicle-status',[DashboardController::class,'vehicleStatus']);
 
 
 //search
