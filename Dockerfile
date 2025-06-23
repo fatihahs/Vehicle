@@ -1,24 +1,23 @@
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
+# Install system dependencies and PHP extensions for Laravel + PostgreSQL
 RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev zip \
-    && docker-php-ext-install zip pdo pdo_mysql
+    git zip unzip libpq-dev libzip-dev \
+    && docker-php-ext-install pdo_pgsql pgsql zip
 
-RUN a2enmod rewrite
-
-# Set Apache document root to Laravel's public folder
-RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-COPY . /var/www/html
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN php artisan config:cache
 
-EXPOSE 80
+# Copy entrypoint script and make it executable
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["apache2-foreground"]
