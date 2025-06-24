@@ -1,23 +1,30 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
-# Install system dependencies and PHP extensions for Laravel + PostgreSQL
+# Install PostgreSQL extension & dependencies
 RUN apt-get update && apt-get install -y \
-    git zip unzip libpq-dev libzip-dev \
-    && docker-php-ext-install pdo_pgsql pgsql zip
+    libpq-dev unzip git zip curl \
+    && docker-php-ext-install pdo_pgsql
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /var/www/html
 
+# Copy project files
 COPY . .
 
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-RUN php artisan config:cache
+# Set permissions
+RUN chmod -R 775 storage bootstrap/cache
 
-# Copy entrypoint script and make it executable
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# Clear and cache Laravel config
+RUN php artisan config:clear && php artisan config:cache
 
+# Expose port 8080 for Laravel dev server
+EXPOSE 8080
+
+# Run Laravel's built-in web server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
