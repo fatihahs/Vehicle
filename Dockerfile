@@ -25,5 +25,5 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # Expose port 80 and run Laravel via PHP built-in server
 EXPOSE 80
-CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
+CMD php artisan migrate --force && php -S 0.0.0.0:80 -t public
 
