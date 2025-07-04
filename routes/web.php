@@ -11,6 +11,9 @@ use App\Http\Controllers\Admins\ResidentsController;
 use App\Http\Controllers\Admins\GuardsController;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\AdminLoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,6 +50,9 @@ Route::get('/vehicle-log', [VehicleLogController::class, 'index'])->name('vehicl
 //search
 Route::get('/residents/search', [ResidentController::class, 'search'])->name('search.residents');
 
+//logout
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 //****  ADMIN ****//
 
@@ -81,5 +87,10 @@ Route::post('/guards/create', [GuardsController::class, 'store'])->name('guards.
 Route::get('admins/guards/create', [GuardsController::class,'createGuards'])->name('admins.create');
 Route::resource('guards', GuardsController::class);  //to made changes
 
+
+// Admin login + logout
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
 });
