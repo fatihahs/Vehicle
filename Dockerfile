@@ -23,6 +23,7 @@ RUN composer install --optimize-autoloader --no-dev
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 9000 and start PHP-FPM server
-EXPOSE 9000
-CMD ["php-fpm"]
+# Expose port 80 and run Laravel via PHP built-in server
+EXPOSE 80
+CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
+
